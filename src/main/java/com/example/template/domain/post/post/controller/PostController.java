@@ -1,10 +1,15 @@
 package com.example.template.domain.post.post.controller;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/posts")
+@Validated
 public class PostController {
 
     @GetMapping("/write")
@@ -15,23 +20,10 @@ public class PostController {
 
     @PostMapping("/write")
     @ResponseBody
-    public String doWrite(String title, String content) {
-
-        if (title.isBlank() || title == null) {
-            return getFormHtml("제목을 입력해주세요.");
-        }
-        if (content.isBlank() || content == null) {
-            return getFormHtml("내용을 입력해주세요.");
-        }
-
-        if (title.length() < 5) {
-            return getFormHtml("제목은 5글자 이상");
-        }
-
-        if (content.length() < 10) {
-            return getFormHtml("내용은 10글자 이상.");
-        }
-
+    public String doWrite(
+            @NotBlank @Length(min=5) String title,
+            @NotBlank @Length(min=10) String content
+    ) {
 
         return """
                 <h1>게시물 조회</h1>

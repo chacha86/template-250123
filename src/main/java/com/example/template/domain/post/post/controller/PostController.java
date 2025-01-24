@@ -1,5 +1,6 @@
 package com.example.template.domain.post.post.controller;
 
+import com.example.template.domain.post.post.entity.Post;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -7,16 +8,45 @@ import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/posts")
 public class PostController {
+
+    List<Post> posts = new ArrayList();
+
+    public PostController() {
+        Post p1 = Post.builder()
+                .id(1L)
+                .title("title1")
+                .content("title1")
+                .build();
+
+        Post p2 = Post.builder()
+                .id(2L)
+                .title("title2")
+                .content("title2")
+                .build();
+
+        Post p3 = Post.builder()
+                .id(3L)
+                .title("title3")
+                .content("title3")
+                .build();
+
+        posts.add(p1);
+        posts.add(p2);
+        posts.add(p3);
+    }
+
 
     @GetMapping("/write")
     @ResponseBody
@@ -45,7 +75,7 @@ public class PostController {
                     .stream()
                     .map(err -> err.getDefaultMessage())
                     .sorted()
-                    .map(msg->msg.split("-")[1])
+                    .map(msg -> msg.split("-")[1])
                     .collect(Collectors.joining("<br>"));
 
             return getFormHtml(errorMessage, form.getTitle(), form.getContent());
@@ -67,6 +97,21 @@ public class PostController {
                   <input type="submit" value="등록" /> <br>
                 </form>
                 """.formatted(errorMsg, title, content);
+    }
+
+    @GetMapping
+    @ResponseBody
+    private String showList() {
+        return """
+                <div>글 목록</div>
+                
+                <ul>
+                    <li>글1</li>
+                    <li>글2</li>
+                    <li>글3</li>
+                </ul>
+                
+                """;
     }
 
 

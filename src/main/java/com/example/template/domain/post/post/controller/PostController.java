@@ -50,7 +50,7 @@ public class PostController {
     }
 
     @GetMapping("/write")
-    public String showWrite() {
+    public String showWrite(WriteForm form, BindingResult bindingResult) {
         return "domain/post/post/write";
     }
 
@@ -71,6 +71,7 @@ public class PostController {
     public String doWrite(@Valid WriteForm form, BindingResult bindingResult,
                           Model model) {
 
+
         if (bindingResult.hasErrors()) {
 
             String errorMessage = bindingResult.getFieldErrors()
@@ -81,6 +82,8 @@ public class PostController {
                     .collect(Collectors.joining("<br>"));
 
             model.addAttribute("errorMessage", errorMessage);
+            model.addAttribute("title", form.getTitle());
+            model.addAttribute("content", form.getContent());
 
             return "domain/post/post/write";
         }

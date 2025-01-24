@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -36,7 +35,7 @@ public class PostController {
                 <h1>게시물 조회</h1>
                 <div>%s</div>
                 <div>%s</div>
-                """.formatted(form.title, form.content);
+                """.formatted(form.getTitle(), form.getContent());
     }
 
     private String getFormHtml(String errorMsg) {

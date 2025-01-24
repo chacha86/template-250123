@@ -9,10 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +68,6 @@ public class PostController {
     public String doWrite(@Valid WriteForm form, BindingResult bindingResult,
                           Model model) {
 
-
         if (bindingResult.hasErrors()) {
 
             String errorMessage = bindingResult.getFieldErrors()
@@ -82,8 +78,6 @@ public class PostController {
                     .collect(Collectors.joining("<br>"));
 
             model.addAttribute("errorMessage", errorMessage);
-            model.addAttribute("title", form.getTitle());
-            model.addAttribute("content", form.getContent());
 
             return "domain/post/post/write";
         }
